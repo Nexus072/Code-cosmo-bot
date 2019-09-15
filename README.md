@@ -4,3 +4,5 @@
 npm i
 npm i discord.js
 node . // или используем .bat файл.
+
+Discord.js
