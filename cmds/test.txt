@@ -1,0 +1,53 @@
+const Discord = module.require("discord.js");
+const db = require('quick.db');
+module.exports.run = async (bot, message, args) => {
+let member = message.mentions.members.first() || message.member;
+   var final = message.content.slice(13)
+   var lovery = message.content.slice(13)
+        
+ let personal = await db.fetch(`personal_${member.id}`, final);
+  if (personal == null) personal = "Отсутствует"; 
+  
+  let loves = await db.fetch(`loves_${member.id}`, lovery);
+  if (loves == null) loves = "Нету возлюбленной(-го)"; 
+  
+    let guild = await db.fetch(`guildMessages_${member.guild.id}_${member.id}`);
+          var a;
+        if(args[0]) a = message.mentions.members.first();
+   let user = message.mentions.members.first() || message.author;
+        if(!args[0]) a = message.member
+        let lvl1 = db.fetch(`${user.id}.lvl`);
+       if (lvl1 == undefined ||lvl1 == 0 ||lvl1 == null) lvl1 = 1;
+       let xp1 = db.fetch(`${user.id}.xp`);
+
+   let like = db.fetch(`likes_${message.guild.id}_${user.id}`)
+   db.add(`likes_${message.guild.id}_267967915855314944`, 1);
+  if (like == null) like = 0;
+  
+     let rep = db.fetch(`reper_${message.guild.id}_${user.id}`)
+  if (rep == null) rep = 0;
+
+    let money = db.fetch(`money_${user.id}`);
+    if (money === null) money = bot.dbal;
+    let checked;
+    if (user.id == message.author.id) checked = user.tag; else { checked = user.user.tag };
+    let embed = new Discord.RichEmbed()
+    .setColor(bot.color)
+    .setTitle(`Профиль пользивателя: **${checked}**`)
+    .addField(`📃Осебе:`, `**${personal}**`)
+    .addField(`💰Баланс:`, `${money} ${bot.bal}`, true)
+    .addField(`📨Сообщений:`, `${guild}`, true)
+    .addField(`📊Уровень:`, `${lvl1}`, true)
+    .addField(`💠Xp:`, `${xp1}`, true)
+    .addField(`💥Репутаций:`, `${rep}`, true)
+    .addField('💑Партнер:', db.fetch(`girl_${message.author.id}_${message.guild.id}`), true)
+    .addField(`:heart:Влюблен(-а) в:`, `${loves}`, true)
+    .addField(`💜Лайки:`,`${like}`)
+    .setThumbnail(a.user.avatarURL)
+    bot.send(embed)
+
+
+};
+module.exports.help = {
+    name: "профиль"
+};
