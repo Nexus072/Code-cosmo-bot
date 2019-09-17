@@ -4,6 +4,7 @@
 npm i
 &&
 npm i discord.js
+[cut]
 node . // или используем .bat файл.
 
 Discord.js
